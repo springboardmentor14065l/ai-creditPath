@@ -8,9 +8,9 @@
     - Provide data-driven insights for loan recovery optimization
 ## Dataset
 
-# Home Credit Default Risk (Kaggle)
-    -307,511 records
-    122 borrower-level features
-    Target variable: TARGET (0 = Non-default, 1 = Default)
-    The dataset includes demographic, financial, loan, and credit inquiry information.
+### Home Credit Default Risk (Kaggle)
+    - 307,511 records
+    - 122 borrower-level features
+    - Target variable: TARGET (0 = Non-default, 1 = Default)
+    - The dataset includes demographic, financial, loan, and credit inquiry information.
 Note: Due to GitHub file size limitations, raw dataset files are not uploaded. The dataset is downloaded programmatically using KaggleHub.
