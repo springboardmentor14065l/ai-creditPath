@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 
 # Database connection details
 DB_USER = "postgres"
-DB_PASSWORD = "Rimy*post"
+DB_PASSWORD = "password"
 DB_HOST = "localhost"
 DB_PORT = "5432"
 DB_NAME = "creditpath"
