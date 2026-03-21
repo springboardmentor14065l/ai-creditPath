@@ -1,8 +1,18 @@
 import pandas as pd
 
-df = pd.read_csv("data/loan.csv")
 
-print("Total rows and columns:", df.shape)
+df = pd.read_csv("data/final_features.csv")
 
-print("\nColumn names:")
-print(df.columns)gi
+print("Shape:", df.shape)
+
+print("\nColumns:")
+print(df.columns)
+
+print("\nData types:")
+print(df.dtypes)
+
+print("\nSample data:")
+print(df.head())
+
+print("\nMissing values:")
+print(df.isnull().sum())
