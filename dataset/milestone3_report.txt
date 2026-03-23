@@ -1,0 +1,60 @@
+
+========================================
+CreditPathAI – Milestone 3: Baseline Model Report
+Student : Akhil Babu Gujjaralapudi
+Model   : Logistic Regression
+========================================
+
+1. MODEL CONFIGURATION
+-----------------------
+Algorithm      : Logistic Regression
+Max Iterations : 1000
+Class Weight   : balanced (handles class imbalance)
+Scaling        : StandardScaler (mandatory)
+Train/Test     : 80/20 split (stratified)
+
+2. EVALUATION RESULTS
+----------------------
+AUC-ROC Score  : 0.7614
+
+Confusion Matrix:
+[[31115 14024]
+ [ 1794  4137]]
+
+3. TOP FEATURES INCREASING DEFAULT RISK
+-----------------------------------------
+                      Feature  Coefficient
+                interest_rate     0.485572
+            loan_income_ratio     0.480663
+   employment_type_Unemployed     0.188961
+    employment_type_Part-time     0.117674
+employment_type_Self-employed     0.109172
+
+4. TOP FEATURES DECREASING DEFAULT RISK
+-----------------------------------------
+        Feature  Coefficient
+   credit_score    -0.104103
+ has_dependents    -0.128830
+   has_cosigner    -0.132436
+months_employed    -0.329555
+            age    -0.598785
+
+5. KEY OBSERVATIONS
+--------------------
+- AUC-ROC of 0.7614 indicates the model's ability to distinguish defaulters
+- class_weight='balanced' used to handle 11.61% class imbalance
+- Logistic Regression provides interpretable coefficients for each feature
+- Top risk factors align with EDA findings (credit score, DTI, interest rate)
+
+6. NEXT STEPS (Milestone 4)
+-----------------------------
+- Train XGBoost model
+- Train LightGBM model
+- Compare AUC-ROC across all three models
+- Hyperparameter tuning using GridSearchCV
+
+7. PLOTS GENERATED (model_plots/)
+-----------------------------------
+- roc_curve.png
+- confusion_matrix.png
+- feature_coefficients.png
