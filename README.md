@@ -1,31 +1,76 @@
 # AI-CreditPath
+## Project Overview
 
-## Dataset Information
+CreditPath AI is a Machine Learning-based system designed to predict loan default risk using borrower financial data.
+The project aims to assist financial institutions in making data-driven lending decisions by identifying high-risk applicants.
 
-This project uses the **Lending Club Loan Dataset**, which contains historical loan records including borrower financial information, loan details, and repayment status.
+This system simulates real-world credit risk assessment used in:
 
-**Original Dataset Source:**  
-https://www.kaggle.com/datasets/wordsforthewise/lending-club
-The original dataset contains **millions of loan records and more than 150 features**.
-After preprocessing and feature selection, the cleaned dataset used in this project contains:
-- **391,164 rows**
-- **72 processed features**
+- Banking systems
+- Loan approval pipelines
+- Credit scoring platforms
 
-Due to **GitHub file size limitations**, the full cleaned dataset is not uploaded to this repository.  
-Instead, a **sample dataset containing 20,000 rows** is provided to demonstrate the structure of the processed data.
+# Dataset Information
 
----
+The dataset used in this project contains historical loan and borrower information, designed to analyze and predict loan default risk.
+* Contains a mix of numerical and categorical features ,
+Includes financial, demographic, and behavioral attributes
 
-## Data Preprocessing
+## Dataset Summary
+- Total Records: 255,347
+- Total Features: 18
+- Target Variable: Default (0 = No Default, 1 = Default)
 
-The following preprocessing steps were applied:
+# Data Cleaning & Preprocessing
 
-1. **Feature Selection** – Selected relevant financial features from the original dataset.
-2. **Loan Status Filtering** – Kept only *Fully Paid* and *Charged Off* loan records.
-3. **Percentage Conversion** – Converted percentage columns (`int_rate`, `revol_util`) into numerical values.
-4. **Employment Length Processing** – Converted employment length into numerical format.
-5. **Missing Value Handling**
-   - Median imputation for numerical features
-   - `"Unknown"` category for categorical features
-6. **Categorical Encoding** – Applied **one-hot encoding** to categorical variables.
-7. **Final Dataset Generation** – Produced a cleaned dataset suitable for machine learning models.
+To ensure high-quality input data, the following steps were performed:
+
+- Removed irrelevant and redundant features
+- Handled missing values
+- Converted percentage values (e.g., interest rate) into numeric format
+- Standardized column names (lowercase, trimmed spaces)
+- Corrected data types
+- Performed basic outlier handling
+
+## Dataset Variants
+
+To maintain a clear workflow, two versions of the dataset were created:
+
+## EDA Dataset (Without Encoding)
+
+File: clean_loansfinal.csv
+
+### Characteristics:
+- Cleaned dataset
+- Categorical variables retained in original form
+- No encoding applied
+
+### Purpose:
+
+This dataset is used for Exploratory Data Analysis, where interpretability is crucial.
+
+Keeping categorical values unchanged helps in:
+
+- Better visualization (bar charts, distributions)
+- Understanding category-wise trends
+- Gaining meaningful insights into borrower behavior
+
+## Model Dataset (With Encoding)
+File: final_data_cleaned.csv
+
+### Characteristics:
+- Cleaned dataset
+- Categorical variables encoded using:
+- One-Hot Encoding
+- Label Encoding
+- Ready for ML model training
+
+### Purpose:
+
+Machine Learning models require numerical inputs.
+
+Encoding ensures:
+
+- Compatibility with algorithms
+- Improved feature representation
+- Better predictive performance
