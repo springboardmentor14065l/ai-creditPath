@@ -60,9 +60,7 @@ coefficients = pd.DataFrame({
 print("\nTop 10 Features Influencing Default Risk:\n")
 print(coefficients.head(10))
 
-# ===============================
-# 🔥 UNIQUENESS PART
-# ===============================
+
 
 # STEP 10: Create Risk Score (0–100)
 df_results = pd.DataFrame({

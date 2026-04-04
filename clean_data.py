@@ -37,15 +37,11 @@ df['default_status'] = df['loan_status'].apply(
 
 df = df.drop('loan_status', axis=1)
 
-# STEP 6: Clean columns
 
-# Fix term
 df['term'] = df['term'].astype(str).str.extract(r'(\d+)').astype(int)
 
-# Fix int_rate
 df['int_rate'] = df['int_rate'].astype(str).str.replace('%', '', regex=False).astype(float)
 
-# Encode grade
 df = pd.get_dummies(df, columns=['grade'], drop_first=True)
 
 # STEP 7: Remove duplicates

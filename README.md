@@ -47,3 +47,41 @@ Selected Features:
 - annual_inc
 - dti
 - loan_status
+
+
+## Milestone 4: Advanced Model Analysis
+
+### What I did
+
+In this milestone, I tried to improve my model using advanced algorithms like XGBoost and LightGBM.
+
+I also:
+- Created additional features from the existing data  
+- Tried tuning model parameters  
+- Tested different approaches to improve accuracy  
+
+### Results
+
+| Model                | AUC Score |
+|---------------------|----------|
+| Logistic Regression | 0.72     |
+| XGBoost             | 0.7019   |
+| LightGBM            | 0.7016   |
+
+
+### What I observed
+
+Even after trying different methods, the advanced models did not perform better than Logistic Regression.
+
+The scores stayed almost the same or slightly lower.
+
+
+### Conclusion
+
+This shows that the dataset mostly follows simple patterns, and Logistic Regression is already able to capture it well.
+
+So, using more complex models did not give better results in this case.
+
+### Final Note
+
+Even though the score did not increase, this step helped me understand how different models behave and how important the data is compared to the model.
