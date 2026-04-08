@@ -1,0 +1,65 @@
+
+========================================
+CreditPathAI - Milestone 4 Report
+Student: Akhil Babu Gujjaralapudi
+Models: XGBoost | LightGBM
+========================================
+
+AUC-ROC COMPARISON
+-------------------
+Logistic Regression : 0.7614
+XGBoost (default)   : 0.7588
+LightGBM (default)  : 0.7590
+Tuned XGBoost       : 0.7601
+
+BEST HYPERPARAMETERS (XGBoost GridSearch)
+------------------------------------------
+{'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 200}
+
+TOP 10 FEATURES (XGBoost)
+--------------------------
+                      Feature  Importance
+                          age    0.141322
+            loan_income_ratio    0.113163
+              interest_burden    0.070241
+                interest_rate    0.068657
+              months_employed    0.043513
+         employment_stability    0.041288
+                 has_cosigner    0.040568
+               has_dependents    0.034517
+   employment_type_Unemployed    0.033728
+employment_type_Self-employed    0.030876
+
+TOP 10 FEATURES (LightGBM)
+----------------------------
+                Feature  Importance
+           credit_score         297
+          interest_rate         280
+        months_employed         264
+                    age         232
+      loan_income_ratio         227
+             log_income         208
+        interest_burden         191
+              dti_ratio         171
+   employment_stability         160
+income_loan_interaction         119
+
+MODEL PARAMETERS
+-----------------
+XGBoost  : n_estimators=100, max_depth=5, learning_rate=0.1, subsample=0.8, colsample_bytree=0.8
+LightGBM : n_estimators=100, max_depth=5, learning_rate=0.1, subsample=0.8, colsample_bytree=0.8
+
+PLOTS GENERATED (model_plots/)
+--------------------------------
+- xgb_feature_importance.png
+- lgbm_feature_importance.png
+- roc_comparison.png
+- auc_comparison_bar.png
+- confusion_xgboost.png
+- confusion_lightgbm.png
+
+NEXT STEPS (Milestone 5)
+--------------------------
+- Build Recommendation Engine
+- Deploy with FastAPI
+- Containerize with Docker
