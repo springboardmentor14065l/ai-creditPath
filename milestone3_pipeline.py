@@ -1,8 +1,9 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score
+import joblib
 
 # Step 1: Load dataset
 df = pd.read_csv("final_features.csv")
@@ -45,3 +46,22 @@ print(feature_importance.head(10))
 
 print("\nTop 10 Features Decreasing Default Risk:")
 print(feature_importance.tail(10))
+
+# Step 10: Save preprocessing pipeline and model
+pipeline = {
+    'scaler': scaler,
+    'features': X.columns.tolist()
+}
+joblib.dump(pipeline, "pipeline.pkl")
+print("Pipeline saved as 'pipeline.pkl'")
+
+joblib.dump(model, "model.pkl")
+print("Model saved as 'model.pkl'")
+
+def preprocess_data(data):
+    # Normalize numerical features
+    scaler = MinMaxScaler()
+    numerical_features = ['LoanAmount', 'DTIRatio', 'credit_utilization', 'interest_burden', 'loan_income_ratio']
+    data[numerical_features] = scaler.fit_transform(data[numerical_features])
+
+    return data
