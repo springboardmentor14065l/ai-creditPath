@@ -3,3 +3,4 @@ models/credit_path_model.pkl
 
 # Allow the new efficient XGBoost model
 !models/best_xgboost_model.pkl
+GEMINI.md
