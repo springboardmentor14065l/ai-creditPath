@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import joblib
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (
@@ -8,9 +9,9 @@ from sklearn.metrics import (
     confusion_matrix,
     classification_report
 )
-from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
-
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
 
 # 🔹 Load dataset
 df = pd.read_csv("final_features.csv")
@@ -24,20 +25,20 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
 
-# 🔹 Scaling (MANDATORY)
-scaler = StandardScaler()
-X_train = scaler.fit_transform(X_train)
-X_test = scaler.transform(X_test)
+# 🔥 Pipeline (Scaler + Model)
+pipeline = Pipeline([
+    ("scaler", StandardScaler()),
+    ("model", LogisticRegression(max_iter=1000, class_weight='balanced'))
+])
 
 # 🔹 Train model
-model = LogisticRegression(max_iter=1000, class_weight='balanced')
-model.fit(X_train, y_train)
+pipeline.fit(X_train, y_train)
 
 print("\n✅ Model training completed")
 
 # 🔹 Predictions
-y_pred = model.predict(X_test)
-y_prob = model.predict_proba(X_test)[:, 1]
+y_pred = pipeline.predict(X_test)
+y_prob = pipeline.predict_proba(X_test)[:, 1]
 
 # 🔹 AUC Score
 auc = roc_auc_score(y_test, y_prob)
@@ -76,7 +77,9 @@ plt.close()
 
 print("📉 Confusion matrix saved as confusion_matrix.png")
 
-# 🔹 Feature Importance (Coefficients)
+# 🔹 Feature Importance
+model = pipeline.named_steps["model"]
+
 coeff_df = pd.DataFrame({
     "Feature": X.columns,
     "Coefficient": model.coef_[0]
@@ -87,3 +90,8 @@ print(coeff_df.head(5))
 
 print("\n🔻 Top features reducing default risk:\n")
 print(coeff_df.tail(5))
+
+# 🔥 SAVE MODEL (CRITICAL FOR API)
+joblib.dump(pipeline, "model.pkl")
+
+print("\n💾 Model saved as model.pkl")
