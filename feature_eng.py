@@ -1,18 +1,12 @@
 import pandas as pd
 import numpy as np
 
-# ============================================
-# MILESTONE 3 - IMPROVED FEATURE ENGINEERING
-# ============================================
 
 # STEP 1: Load cleaned dataset
 df = pd.read_csv("data/clean_loans.csv")
 
 print("Original shape:", df.shape)
 
-# ============================================
-# STEP 2: EXISTING FEATURES (KEEP)
-# ============================================
 
 df['loan_income_ratio'] = df['loan_amnt'] / df['annual_inc']
 
@@ -24,9 +18,6 @@ df['log_income'] = np.log1p(df['annual_inc'])
 
 df['income_loan_interaction'] = df['annual_inc'] * df['loan_amnt']
 
-# ============================================
-# STEP 3: NEW IMPROVED FEATURES (ADD THIS)
-# ============================================
 
 # 1. Credit risk interaction
 df["credit_risk_score"] = df["int_rate"] * df["dti"]
@@ -53,22 +44,16 @@ df["loan_burden"] = df["loan_amnt"] * df["int_rate"]
 # 6. EMI to income ratio (very useful)
 df["emi_to_income"] = df["installment"] / (df["annual_inc"] + 1)
 
-# ============================================
-# STEP 4: DROP UNUSED COLUMN (KEEP THIS)
-# ============================================
+
 
 df = df.drop(columns=['annual_inc'])
 
-# ============================================
-# STEP 5: FINAL CHECK
-# ============================================
+
 
 print("New shape after feature engineering:", df.shape)
 print("Columns now:", df.columns)
 
-# ============================================
-# STEP 6: SAVE FINAL DATASET
-# ============================================
+
 
 df.to_csv("data/final_features.csv", index=False)
 
