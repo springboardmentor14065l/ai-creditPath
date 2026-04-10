@@ -1,52 +1,110 @@
-# CreditPathAI - Milestone 5: Recommendation Engine & FastAPI API
+# CreditPathAI
 
-Welcome to **Milestone 5** of the CreditPathAI project! This milestone focuses on taking the trained machine learning models from Milestone 4 and deploying them as a production-ready API with an automated business recommendation engine.
+Welcome to **CreditPathAI**, a complete end-to-end, full-stack application designed to predict the probability of loan defaults using advanced machine learning models (XGBoost & LightGBM) and a modern, high-performance web interface.
+
+![Project Status](https://img.shields.io/badge/Status-Complete-success) ![Machine Learning](https://img.shields.io/badge/ML-XGBoost%20%7C%20LightGBM-blue) ![Backend](https://img.shields.io/badge/Backend-FastAPI-009688) ![Frontend](https://img.shields.io/badge/Frontend-React%20%7C%20Vite%20%7C%20Tailwind-61DAFB)
+
+---
 
 ## 🚀 Overview
+CreditPathAI unifies data science and full-stack engineering. The application takes in a borrower's demographic and financial profile and provides a robust, ML-driven risk assessment via an immersive dashboard. 
 
-In this phase, we have integrated our advanced XGBoost model into a **FastAPI** web application. The API accepts loan application data, processes it using the exact same feature engineering logic used during training, and returns a risk assessment along with a recommended action.
+The project comprises:
+1. **Machine Learning Pipeline**: Data preprocessing, feature engineering, class-imbalance correction, and sophisticated modeling utilizing gradient boosting.
+2. **FastAPI Backend Engine**: A low-latency, scalable Python API wrapper running the serialized ML model pipeline.
+3. **React/Vite Dashboard**: A dynamic, beautiful front-end displaying real-time Probability Gauges, Custom KPIs, Risk Insights, and historical tracking.
+
+---
 
 ## 🛠️ Key Features
 
-- **Standardized Preprocessing**: Reuses the Milestone 4 preprocessing logic (scaling, encoding, and 10+ custom feature transformations) via a serialized scikit-learn `Pipeline`.
-- **FastAPI Integration**: High-performance, asynchronous API with automatic interactive documentation (Swagger UI).
-- **Automated Recommendation Engine**: Translates complex machine learning probabilities into clear business strategies.
-- **Robust Error Handling**: Handles edge cases like zero values or missing inputs without crashing.
+### 🧠 Advanced Machine Learning
+- **Gradient Boosting Frameworks**: Leverages tuned `XGBClassifier` and `LGBMClassifier` architectures.
+- **Automated Feature Engineering**: Handles over 10+ synthesized metrics (like `monthly_interest_burden`) mapped via scikit-learn `FunctionTransformer` Pipelines.
+- **Native Threshold Calibration**: Probability output bounds are mathematically calibrated and offset to properly adjust for heavily skewed target class ratios inherent in real-life debt data.
 
-## 📂 Project Structure
+### ⚙️ FastAPI Python Backend
+- **Asynchronous endpoints**: Highly responsive asynchronous architecture.
+- **Smart Decision Engine**: Uses calibrated bounds mapping default probabilities securely to three business actions:
+  - `< 0.25`: **Low Risk** _(Regular follow-up)_
+  - `0.25 - 0.40`: **Medium Risk** _(Send reminder and monitor)_
+  - `≥ 0.40`: **High Risk** _(Immediate call and restructuring plan)_
 
-- `main.py`: The core FastAPI application.
-- `utils.py`: Contains the `feature_engineering` function shared between training and inference.
-- `advanced_model_training.py`: Updated training script that exports `model.pkl` and `pipeline.pkl`.
-- `model.pkl`: The trained XGBoost model.
-- `pipeline.pkl`: The saved preprocessing pipeline.
+### 🖥️ Dynamic React Interface
+- **KPI Metrics Navbar**: Tracks session counts and sums aggregated predictions seamlessly across browser sessions via `localStorage`.
+- **Interactive Risk Results**: Contextual UI components that animate and change tone (Green / Amber / Red) reacting precisely to the AI engine predictions.
+- **Embedded Visualizations**: Native Plotly.js charts displaying real-time gauges.
 
-## ⚙️ Installation & Setup
+---
 
-1. **Install Dependencies**:
-   ```bash
-   pip install fastapi uvicorn pandas numpy scikit-learn xgboost joblib
-   ```
+## 📂 Architecture & Project Structure
 
-2. **Generate Assets** (if not already present):
-   ```bash
-   python advanced_model_training.py
-   ```
+```text
+creditpathai/
+│
+├── frontend/                   # React.js application
+│   ├── src/                    # Source code (React components, hooks, api)
+│   ├── index.html              # Vite Entry Point
+│   ├── vite.config.js          # Vite Bundler Settings
+│   └── package.json            # Node Dependencies
+│
+├── main.py                     # Core FastAPI Application & Routing
+├── utils.py                    # Feature Engineering Functions
+├── advanced_model_training.py  # Model Logic & Training Architecture
+├── eda_analysis.py             # Exploratory Data Analytics Logic
+├── model.pkl                   # Serialized XGBoost Predictor
+├── pipeline.pkl                # Serialized Data Transformation Pipeline
+└── README.md                   # Project Documentation
+```
 
-3. **Run the API**:
-   ```bash
-   uvicorn main:app --reload
-   ```
+---
 
-## 📡 API Documentation
+## ⚙️ Installation & Usage Guide
 
-Once the server is running, you can access the interactive documentation at:
-- **Swagger UI**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
-- **Redoc**: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
+### 1. Backend Setup (FastAPI & ML)
+Ensure you have Python 3.9+ installed natively or mapped in your virtual environment.
 
-### Endpoint: `POST /predict`
+```bash
+# Navigate to project root
+cd creditpathai
 
-**Request Body (JSON):**
+# Install dependencies
+pip install fastapi uvicorn pandas numpy scikit-learn xgboost lightgbm joblib
+
+# (Optional) Verify & Retrain the assets if desired
+python advanced_model_training.py
+
+# Launch the FastAPI Uvicorn Server (Default Port: 8000)
+python main.py
+```
+
+### 2. Frontend Setup (React & Vite)
+Ensure you have Node.js v16+ installed. Open a second terminal window.
+
+```bash
+# Navigate to the frontend directory
+cd creditpathai/frontend
+
+# Install dependencies Node Modules
+npm install
+
+# Start the Vite local development server (Port 5173/5174)
+npm run dev
+```
+
+### 3. Execution
+1. The **Backend API** will host the documentation at [http://localhost:8000/docs](http://localhost:8000/docs).
+2. Open your web browser to **[http://localhost:5173/](http://localhost:5173/)** (check the Vite output if using 5174).
+3. Utilize the Form on the left side of the dashboard. Click **Predict Risk** to trigger the full execution pipeline.
+
+---
+
+## 📡 API Reference Endpoint
+
+### `POST /predict`
+Processes applicant data and outputs the risk probability and recommended administrative action.
+
+**Example Request:**
 ```json
 {
   "age": 35,
@@ -56,7 +114,7 @@ Once the server is running, you can access the interactive documentation at:
   "months_employed": 24,
   "num_credit_lines": 3,
   "interest_rate": 5.5,
-  "loan_term": 12,
+  "loan_term": 36,
   "dti_ratio": 0.2,
   "education": 1,
   "employment_type": 1,
@@ -68,24 +126,14 @@ Once the server is running, you can access the interactive documentation at:
 }
 ```
 
-**Response (JSON):**
+**Example Response:**
 ```json
 {
   "probability": 0.2752,
-  "risk": "Low Risk",
-  "action": "Send Reminder"
+  "risk": "Medium Risk",
+  "action": "Send reminder and monitor"
 }
 ```
 
-## ⚖️ Recommendation Logic
-
-The recommendation engine categorizes applications based on the predicted probability of default:
-
-| Probability Stage | Risk Category | Recommended Action |
-| :--- | :--- | :--- |
-| **Prob < 0.3** | Low Risk | **Send Reminder** |
-| **0.3 ≤ Prob < 0.6** | Medium Risk | **Call Customer** |
-| **Prob ≥ 0.6** | High Risk | **Immediate Recovery Action** |
-
 ---
-*Developed as part of the CreditPathAI Project.*
+*Created as the final milestone of the CreditPathAI Risk Assessment project.*
