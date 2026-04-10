@@ -1,6 +1,6 @@
 # CreditPathAI
 
-Welcome to **CreditPathAI**, a complete end-to-end, full-stack application designed to predict the probability of loan defaults using advanced machine learning models (XGBoost & LightGBM) and a modern, high-performance web interface.
+Welcome to **CreditPathAI**, a complete end-to-end, application designed to predict the probability of loan defaults using advanced machine learning models (XGBoost & LightGBM) and a modern, high-performance web interface.
 
 ![Project Status](https://img.shields.io/badge/Status-Complete-success) ![Machine Learning](https://img.shields.io/badge/ML-XGBoost%20%7C%20LightGBM-blue) ![Backend](https://img.shields.io/badge/Backend-FastAPI-009688) ![Frontend](https://img.shields.io/badge/Frontend-React%20%7C%20Vite%20%7C%20Tailwind-61DAFB)
 
