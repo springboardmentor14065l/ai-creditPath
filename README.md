@@ -66,14 +66,5 @@ The **Recovery Action Center** dashboard provides a visual interface for collect
 
 ---
 
-## 📸 Screenshots
-*(Place your system screenshots here)*
-
-1. **`dashboard_main.png`**: The primary landing page showing the form and empty analytics.
-2. **`high_risk_alert.png`**: The visual state when a high-probability default is detected.
-3. **`batch_analytics.png`**: The Plotly bar chart showing session-wide risk trends.
-
----
-
 ## 🛡️ Business Logic
 The system is built on **Model-Action Parity**. Every prediction is calculated through the exact same 10-step feature engineering pipeline used during training, ensuring that the decisions made in the UI are mathematically identical to the historical data analysis.
