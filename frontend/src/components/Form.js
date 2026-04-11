@@ -16,11 +16,11 @@ const Form = ({ formData, onChange, onSubmit, loading }) => {
           <input type="number" name="age" value={formData.age} onChange={onChange} />
         </div>
         <div className="form-group">
-          <label>Income ($)</label>
+          <label>Income (₹)</label>
           <input type="number" name="income" value={formData.income} onChange={onChange} />
         </div>
         <div className="form-group">
-          <label>Loan Amount ($)</label>
+          <label>Loan Amount (₹)</label>
           <input type="number" name="loan_amount" value={formData.loan_amount} onChange={onChange} />
         </div>
         <div className="form-group">

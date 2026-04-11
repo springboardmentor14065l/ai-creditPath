@@ -19,18 +19,26 @@ const Dashboard = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    const numericFields = ["age", "income", "loan_amount", "credit_score", "months_employed", "num_credit_lines", "interest_rate", "loan_term", "dti_ratio"];
+    // UX Fix: Allow empty strings during typing to prevent persistent zeros
     setFormData(prev => ({
       ...prev,
-      [name]: numericFields.includes(name) ? Number(value) : value
+      [name]: value
     }));
   };
 
   const handleSubmit = async () => {
     setLoading(true);
-    setError(null); // Reset error state on new attempt
+    setError(null);
     try {
-      const res = await predict(formData);
+      // Data Integrity: Convert numeric fields back to Numbers only right before submission
+      const numericFields = ["age", "income", "loan_amount", "credit_score", "months_employed", "num_credit_lines", "interest_rate", "loan_term", "dti_ratio"];
+      const submissionData = { ...formData };
+      
+      numericFields.forEach(field => {
+        submissionData[field] = submissionData[field] === "" ? 0 : Number(submissionData[field]);
+      });
+
+      const res = await predict(submissionData);
       const data = res.data;
       setResult(data);
       setHistory(prev => ({
