@@ -1,0 +1,121 @@
+.dashboard {
+  background: var(--bg-card);
+  border-radius: 8px;
+  border: 1px solid var(--border-card);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  padding: 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  color: var(--text-main);
+  transition: all 0.3s ease;
+}
+
+.dashboard.empty {
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-main);
+  border: 1px dashed var(--border-card);
+  box-shadow: none;
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.empty-state h3 {
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-header h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: var(--text-main);
+  font-weight: 700;
+  font-size: 1.25rem;
+  border-bottom: 1px solid var(--border-card);
+  padding-bottom: 1rem;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.metric-card {
+  padding: 1.25rem;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.metric-card.normal {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-card);
+}
+
+.status-low {
+  background-color: var(--status-low-bg);
+  border: 1px solid var(--status-low-border);
+  color: var(--status-low-text);
+}
+
+.status-medium {
+  background-color: var(--status-med-bg);
+  border: 1px solid var(--status-med-border);
+  color: var(--status-med-text);
+}
+
+.status-high {
+  background-color: var(--status-high-bg);
+  border: 1px solid var(--status-high-border);
+  color: var(--status-high-text);
+}
+
+.metric-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+.metric-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.action-card {
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.action-header h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.action-text {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.chart-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-card);
+}

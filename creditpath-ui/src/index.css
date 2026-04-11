@@ -1,0 +1,77 @@
+:root {
+  --bg-main: #f8fafc;
+  --text-main: #0f172a;
+  --bg-card: #ffffff;
+  --border-card: #e2e8f0;
+  --text-muted: #64748b;
+  --text-label: #475569;
+  --header-bg: #0f172a;
+  --header-text: #f8fafc;
+  --form-bg: #e0f2fe;
+  --form-border: #7dd3fc;
+  --form-text: #0c4a6e;
+  --input-bg: #ffffff;
+  --input-border: #cbd5e1;
+  --input-text: #0f172a;
+  
+  --status-low-bg: #f0fdf4;
+  --status-low-border: #86efac;
+  --status-low-text: #166534;
+  
+  --status-med-bg: #fff7ed;
+  --status-med-border: #fdba74;
+  --status-med-text: #c2410c;
+  
+  --status-high-bg: #fef2f2;
+  --status-high-border: #fca5a5;
+  --status-high-text: #b91c1c;
+
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.dark-theme {
+  --bg-main: #0f172a;
+  --text-main: #f8fafc;
+  --bg-card: #1e293b;
+  --border-card: #334155;
+  --text-muted: #94a3b8;
+  --text-label: #cbd5e1;
+  --header-bg: #020617;
+  --header-text: #f8fafc;
+  --form-bg: #1e3a8a;
+  --form-border: #3b82f6;
+  --form-text: #eff6ff;
+  --input-bg: #0f172a;
+  --input-border: #334155;
+  --input-text: #f8fafc;
+  
+  --status-low-bg: rgba(22, 101, 52, 0.3);
+  --status-low-border: #22c55e;
+  --status-low-text: #bbf7d0;
+  
+  --status-med-bg: rgba(194, 65, 12, 0.3);
+  --status-med-border: #f97316;
+  --status-med-text: #fef08a;
+  
+  --status-high-bg: rgba(153, 27, 27, 0.3);
+  --status-high-border: #ef4444;
+  --status-high-text: #fecaca;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
