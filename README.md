@@ -49,6 +49,26 @@ Selected Features:
 - loan_status
 
 
+### Milestone 2: Data Ingestion & Initial EDA
+
+In this stage, the dataset was loaded and prepared for further processing.  
+Basic data cleaning was performed to handle missing values and inconsistencies.  
+Exploratory Data Analysis (EDA) was done to understand patterns in loan data.  
+Important features like loan amount, interest rate, and DTI were analyzed.  
+The dataset was structured properly for model training in the next stage.  
+
+
+
+### Milestone 3: Baseline Model Development
+
+In this stage, data cleaning was refined and important features were selected.  
+Feature engineering was applied to improve data quality and relevance.  
+A baseline Logistic Regression model was trained on the dataset.  
+The model was evaluated to understand initial prediction performance.  
+This helped in identifying improvements needed for better accuracy.  
+
+
+
 ## Milestone 4: Advanced Model Analysis
 
 ### What I did
@@ -85,3 +105,24 @@ So, using more complex models did not give better results in this case.
 ### Final Note
 
 Even though the score did not increase, this step helped me understand how different models behave and how important the data is compared to the model.
+
+
+
+### Milestone 5: Recommendation Engine & API
+
+In this stage, a FastAPI backend was developed to serve model predictions.  
+The /predict API endpoint was created to return risk score and category.  
+Due to limited training in the advanced model, Logistic Regression was used for stability.  
+Basic feature engineering was added to improve prediction behavior.  
+A recommendation system was implemented to suggest actions based on risk level.  
+The API was tested successfully and integrated with the frontend.  
+
+
+
+### Milestone 6: Frontend Development & Final Delivery
+
+- Developed a React-based dashboard for user interaction and risk prediction.
+- Implemented a login page with basic authentication for secure access.
+- Designed a clean dark-themed UI with input forms and result display.
+- Added a circular gauge to visually represent risk levels (Low/Medium/High).
+- Extended functionality by including a "Get Recommendation" feature that provides suggestions based on risk level.
