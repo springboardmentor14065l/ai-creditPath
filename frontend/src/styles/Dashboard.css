@@ -1,0 +1,326 @@
+/* Dashboard.css - Dashboard component styles */
+
+.dashboard-container {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.dashboard-container h2 {
+    color: var(--text-primary);
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 700;
+}
+
+/* No Result State */
+.no-result {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+    border-radius: 8px;
+    border: 2px dashed var(--border-color);
+}
+
+/* Results Grid */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+/* Result Card */
+.result-card {
+    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+}
+
+.result-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.result-card.risk-low {
+    border-color: var(--success-color);
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(16, 185, 129, 0.02) 100%);
+}
+
+.result-card.risk-medium {
+    border-color: var(--warning-color);
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(245, 158, 11, 0.02) 100%);
+}
+
+.result-card.risk-high {
+    border-color: var(--danger-color);
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(239, 68, 68, 0.02) 100%);
+}
+
+.result-card-info {
+    border-color: var(--primary-color);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(102, 126, 234, 0.02) 100%);
+}
+
+.result-card-action {
+    border-color: var(--secondary-color);
+    background: linear-gradient(135deg, rgba(118, 75, 162, 0.05) 0%, rgba(118, 75, 162, 0.02) 100%);
+}
+
+.card-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.card-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.result-card.risk-low .card-value {
+    color: var(--success-color);
+}
+
+.result-card.risk-medium .card-value {
+    color: var(--warning-color);
+}
+
+.result-card.risk-high .card-value {
+    color: var(--danger-color);
+}
+
+.result-card-info .card-value {
+    color: var(--primary-color);
+}
+
+.result-card-action .card-value {
+    color: var(--secondary-color);
+}
+
+.card-description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.card-action-text {
+    font-size: 1rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+/* Probability Bar */
+.probability-bar {
+    width: 100%;
+    height: 10px;
+    background: var(--border-color);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.probability-fill {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.5s ease-out;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+}
+
+.probability-fill.risk-low {
+    background: linear-gradient(90deg, var(--success-color), #00d084);
+}
+
+.probability-fill.risk-medium {
+    background: linear-gradient(90deg, var(--warning-color), #fcb045);
+}
+
+.probability-fill.risk-high {
+    background: linear-gradient(90deg, var(--danger-color), #e53935);
+}
+
+/* Risk Legend */
+.risk-legend {
+    background: var(--light-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.risk-legend h4 {
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.legend-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+.legend-color {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.legend-color.risk-low {
+    background: var(--success-color);
+}
+
+.legend-color.risk-medium {
+    background: var(--warning-color);
+}
+
+.legend-color.risk-high {
+    background: var(--danger-color);
+}
+
+/* Details Section */
+.details-section {
+    background: linear-gradient(135deg, #f0f4ff 0%, #f9f5ff 100%);
+    border: 1px solid #e0e7ff;
+    border-radius: 10px;
+    padding: 25px;
+    color: var(--text-primary);
+}
+
+.details-section h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.details-section p {
+    line-height: 1.8;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.details-section p:last-child {
+    margin-bottom: 0;
+}
+
+.details-section strong {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.action-details {
+    background: white;
+    padding: 12px 15px;
+    border-left: 4px solid var(--secondary-color);
+    border-radius: 4px;
+    margin-top: 15px;
+    font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dashboard-container h2 {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+    }
+
+    .results-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .card-value {
+        font-size: 2rem;
+    }
+
+    .legend-items {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .risk-legend {
+        padding: 18px;
+        margin-bottom: 20px;
+    }
+
+    .details-section {
+        padding: 18px;
+    }
+
+    .details-section h4 {
+        font-size: 0.95rem;
+        margin-bottom: 12px;
+    }
+
+    .details-section p {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-value {
+        font-size: 1.8rem;
+    }
+
+    .card-label {
+        font-size: 0.75rem;
+    }
+
+    .card-description {
+        font-size: 0.85rem;
+    }
+
+    .legend-items {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .legend-color {
+        width: 16px;
+        height: 16px;
+    }
+
+    .legend-item {
+        font-size: 0.9rem;
+        gap: 10px;
+    }
+}
