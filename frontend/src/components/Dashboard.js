@@ -1,0 +1,98 @@
+import React, { useState } from 'react';
+import { predict } from '../services/api';
+import Form from './Form';
+import Charts from './Charts';
+
+const Dashboard = () => {
+  const [formData, setFormData] = useState({
+    age: 30, income: 50000, loan_amount: 20000, credit_score: 650,
+    months_employed: 24, num_credit_lines: 5, interest_rate: 12.5,
+    loan_term: 36, dti_ratio: 0.35, education: "Bachelor's",
+    employment_type: "Full-time", marital_status: "Single",
+    has_mortgage: "No", has_dependents: "No", loan_purpose: "Other", has_cosigner: "No"
+  });
+
+  const [result, setResult] = useState(null);
+  const [history, setHistory] = useState({ low: 0, med: 0, high: 0 });
+  const [loading, setLoading] = useState(false);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    const numericFields = ["age", "income", "loan_amount", "credit_score", "months_employed", "num_credit_lines", "interest_rate", "loan_term", "dti_ratio"];
+    setFormData(prev => ({
+      ...prev,
+      [name]: numericFields.includes(name) ? Number(value) : value
+    }));
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    try {
+      const res = await predict(formData);
+      const data = res.data;
+      setResult(data);
+      setHistory(prev => ({
+        ...prev,
+        low: data.risk === 'Low' ? prev.low + 1 : prev.low,
+        med: data.risk === 'Medium' ? prev.med + 1 : prev.med,
+        high: data.risk === 'High' ? prev.high + 1 : prev.high
+      }));
+    } catch (error) {
+      alert("Error connecting to API.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getRiskClass = (risk) => risk ? risk.toLowerCase() : '';
+  const getRiskColor = (risk) => {
+    if (risk === 'Low') return '#10b981';
+    if (risk === 'Medium') return '#f59e0b';
+    return '#ef4444';
+  };
+
+  return (
+    <div className="container">
+      <header className="header">
+        <h1>CreditPath AI <span style={{fontSize: '1rem', color: 'var(--text-secondary)', verticalAlign: 'middle', marginLeft: '1rem'}}>v1.4.1</span></h1>
+        <p style={{color: 'var(--text-secondary)', fontWeight: 500}}>Predictive Credit Risk Engine & Recovery Action Center</p>
+      </header>
+
+      <main className="dashboard-grid">
+        <Form formData={formData} onChange={handleInputChange} onSubmit={handleSubmit} loading={loading} />
+
+        <div className="card">
+          {result ? (
+            <div className="action-center">
+              {/* UX Goal: Highlight high-risk cases visually with pulsing alert box */}
+              <div className={`risk-alert-box ${getRiskClass(result.risk)}`}>
+                <div className="risk-badge-large" style={{ backgroundColor: getRiskColor(result.risk), color: 'white' }}>
+                  {result.risk} Risk Detected
+                </div>
+                
+                {/* UX Goal: Make actions obvious with huge typography */}
+                <h2 className="huge-action-text">{result.action}</h2>
+                
+                {/* UX Goal: Prioritize clarity (simple probability percentage) */}
+                <p className="probability-subtext">
+                  Model confidence: <strong>{(result.probability * 100).toFixed(0)}%</strong> default probability
+                </p>
+              </div>
+
+              {/* Interactive Analytics below the main action */}
+              <Charts probability={result.probability} risk={result.risk} history={history} />
+            </div>
+          ) : (
+            <div style={{color: 'var(--text-secondary)', textAlign: 'center', padding: '10rem 2rem'}}>
+              <div style={{fontSize: '5rem', marginBottom: '2rem'}}>📈</div>
+              <h2 style={{color: 'white', marginBottom: '1rem'}}>Awaiting Applicant Data</h2>
+              <p>Enter loan details on the left to activate the risk assessment engine.</p>
+            </div>
+          )}
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default Dashboard;
