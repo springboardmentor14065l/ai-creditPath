@@ -10,6 +10,7 @@ const Form = ({ formData, onChange, onSubmit, loading }) => {
     <div className="card">
       <h2 style={{ marginBottom: '1.5rem', fontSize: '1.25rem' }}>Applicant Details</h2>
       <form onSubmit={handleFormSubmit} className="form-grid">
+        {/* Numerical Fields */}
         <div className="form-group">
           <label>Age</label>
           <input type="number" name="age" value={formData.age} onChange={onChange} />
@@ -42,6 +43,8 @@ const Form = ({ formData, onChange, onSubmit, loading }) => {
           <label>DTI Ratio (0-1)</label>
           <input type="number" step="0.01" name="dti_ratio" value={formData.dti_ratio} onChange={onChange} />
         </div>
+
+        {/* Categorical Fields */}
         <div className="form-group">
           <label>Education</label>
           <select name="education" value={formData.education} onChange={onChange}>
@@ -60,7 +63,49 @@ const Form = ({ formData, onChange, onSubmit, loading }) => {
             <option value="Unemployed">Unemployed</option>
           </select>
         </div>
-        <button type="submit" className="btn-predict" disabled={loading}>
+        <div className="form-group">
+          <label>Marital Status</label>
+          <select name="marital_status" value={formData.marital_status} onChange={onChange}>
+            <option value="Single">Single</option>
+            <option value="Married">Married</option>
+            <option value="Divorced">Divorced</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <label>Loan Purpose</label>
+          <select name="loan_purpose" value={formData.loan_purpose} onChange={onChange}>
+            <option value="Auto">Auto</option>
+            <option value="Home">Home</option>
+            <option value="Education">Education</option>
+            <option value="Business">Business</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        {/* Boolean Toggle Fields */}
+        <div className="form-group">
+          <label>Has Mortgage?</label>
+          <select name="has_mortgage" value={formData.has_mortgage} onChange={onChange}>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <label>Has Dependents?</label>
+          <select name="has_dependents" value={formData.has_dependents} onChange={onChange}>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <label>Has Co-Signer?</label>
+          <select name="has_cosigner" value={formData.has_cosigner} onChange={onChange}>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+
+        <button type="submit" className="btn-predict" disabled={loading} style={{ gridColumn: 'span 2' }}>
           {loading ? "Calculating Risk..." : "Run Risk Assessment"}
         </button>
       </form>

@@ -15,6 +15,7 @@ const Dashboard = () => {
   const [result, setResult] = useState(null);
   const [history, setHistory] = useState({ low: 0, med: 0, high: 0 });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -27,6 +28,7 @@ const Dashboard = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
+    setError(null); // Reset error state on new attempt
     try {
       const res = await predict(formData);
       const data = res.data;
@@ -37,8 +39,11 @@ const Dashboard = () => {
         med: data.risk === 'Medium' ? prev.med + 1 : prev.med,
         high: data.risk === 'High' ? prev.high + 1 : prev.high
       }));
-    } catch (error) {
-      alert("Error connecting to API.");
+    } catch (e) {
+      // UX Goal: Graceful Error Handling
+      console.error("API Call Failed:", e);
+      setError("System Unavailable: Could not reach the Risk Assessment Engine. Please try again later.");
+      setResult(null);
     } finally {
       setLoading(false);
     }
@@ -62,27 +67,36 @@ const Dashboard = () => {
         <Form formData={formData} onChange={handleInputChange} onSubmit={handleSubmit} loading={loading} />
 
         <div className="card">
+          {/* Display Error Message if API fails */}
+          {error && (
+            <div style={{
+              backgroundColor: 'rgba(239, 68, 68, 0.1)',
+              border: '1px solid var(--danger)',
+              color: 'var(--danger)',
+              padding: '1rem',
+              borderRadius: '0.5rem',
+              marginBottom: '2rem',
+              textAlign: 'center',
+              fontWeight: 600
+            }}>
+              ⚠️ {error}
+            </div>
+          )}
+
           {result ? (
             <div className="action-center">
-              {/* UX Goal: Highlight high-risk cases visually with pulsing alert box */}
               <div className={`risk-alert-box ${getRiskClass(result.risk)}`}>
                 <div className="risk-badge-large" style={{ backgroundColor: getRiskColor(result.risk), color: 'white' }}>
                   {result.risk} Risk Detected
                 </div>
-                
-                {/* UX Goal: Make actions obvious with huge typography */}
                 <h2 className="huge-action-text">{result.action}</h2>
-                
-                {/* UX Goal: Prioritize clarity (simple probability percentage) */}
                 <p className="probability-subtext">
                   Model confidence: <strong>{(result.probability * 100).toFixed(0)}%</strong> default probability
                 </p>
               </div>
-
-              {/* Interactive Analytics below the main action */}
               <Charts probability={result.probability} risk={result.risk} history={history} />
             </div>
-          ) : (
+          ) : !error && (
             <div style={{color: 'var(--text-secondary)', textAlign: 'center', padding: '10rem 2rem'}}>
               <div style={{fontSize: '5rem', marginBottom: '2rem'}}>📈</div>
               <h2 style={{color: 'white', marginBottom: '1rem'}}>Awaiting Applicant Data</h2>
