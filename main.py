@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import pandas as pd
 import joblib
+from fastapi.middleware.cors import CORSMiddleware  # ✅ ADDED
 
 # Load saved files
 model = joblib.load("model.pkl")
@@ -9,7 +10,16 @@ feature_names = joblib.load("feature_names.pkl")
 
 app = FastAPI()
 
-# Risk category function
+# ✅ ADDED (for React connection)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Risk category function (UNCHANGED)
 def categorize_risk(score):
     if score < 30:
         return "Low Risk"
@@ -17,6 +27,8 @@ def categorize_risk(score):
         return "Medium Risk"
     else:
         return "High Risk"
+
+# Explanation function (UNCHANGED)
 def generate_explanation(risk_category):
     if risk_category == "Low Risk":
         return "Low chance of default. The applicant seems financially stable."
@@ -25,9 +37,7 @@ def generate_explanation(risk_category):
         return "There is some risk. The applicant may face difficulty in repayment."
     
     else:
-        return "High chance of default. The applicant may struggle to repay the loan."    
-    
-    
+        return "High chance of default. The applicant may struggle to repay the loan."
 
 @app.get("/")
 def home():
@@ -40,7 +50,11 @@ def predict(data: dict):
         input_df = pd.DataFrame([data])
         input_df = input_df.replace({True: 1, False: 0})
 
-        # Ensure correct feature order
+        # ✅ SAFE FIX (avoid missing column error)
+        for col in feature_names:
+            if col not in input_df:
+                input_df[col] = 0
+
         input_df = input_df[feature_names]
 
         print("INPUT DATA:")
@@ -61,15 +75,25 @@ def predict(data: dict):
         # Category
         risk_category = categorize_risk(risk_score)
 
-        # ✅ ADD THIS LINE
+        # Explanation
         explanation = generate_explanation(risk_category)
 
-        # ✅ UPDATED RETURN BLOCK
+        # ✅ UPDATED RETURN (ONLY ADDITION FOR FRONTEND)
         return {
+            "probability": round(prob, 4),        # NEW (for React)
+            "risk": risk_category.replace(" Risk", ""),  # NEW (Low/Medium/High)
+            "action": explanation,               # NEW (rename for UI)
+
+            # OLD OUTPUT (UNCHANGED)
             "prediction_probability": round(prob, 4),
             "risk_score": risk_score,
             "risk_category": risk_category,
-            "explanation": explanation
+            "explanation": explanation,
+
+            # for chart
+            "low": 20,
+            "medium": 30,
+            "high": 50
         }
 
     except Exception as e:
