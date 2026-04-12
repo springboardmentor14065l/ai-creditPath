@@ -1,147 +1,70 @@
-# ai-creditPath
+# Getting Started with Create React App
 
-CreditPathAI – Loan Risk Prediction System
- A full-stack machine learning application that predicts loan default risk and provides actionable insights using a modern banking-style dashboard.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Overview
+## Available Scripts
 
-CreditPathAI is an end-to-end AI-powered system designed to assist financial institutions in evaluating borrower risk. It combines machine learning models with a FastAPI backend and a React frontend to deliver real-time predictions, visual analytics, and explainable insights.
+In the project directory, you can run:
 
-Key Features
- Loan Default Prediction using ML models
- Risk Classification (Low / Medium / High)
- Action Recommendations (Approve / Review / Reject)
- Explainable AI (Reasons for prediction)
- Interactive Charts (Gauge + Bar using Plotly)
- Prediction History (stored in localStorage)
- Banking-Style Dashboard UI
- FastAPI Backend for real-time processing
+### `npm start`
 
-System Architecture
-User → React UI → Axios → FastAPI → ML Model → JSON → UI
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-Tech Stack
-🔹 Frontend
-React.js
-Axios
-Plotly.js
-CSS
-🔹 Backend
-FastAPI
-Uvicorn
-Python
-🔹 Machine Learning
-Scikit-learn
-XGBoost / LightGBM
-🔹 Data Processing
-Pandas
-NumPy
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-Project Structure
-creditpathai/
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── Form.js
-│   │   │   ├── Dashboard.js
-│   │   │   ├── Charts.js
-│   │   │   ├── History.js
-│   │   ├── App.js
-│
-├── main.py
-├── model.pkl
-├── pipeline.pkl
-└── README.md
+### `npm test`
 
-Installation & Setup
-🔹 1. Clone Repository
-git clone https://github.com/your-username/creditpathai.git
-cd creditpathai
-🔹 2. Backend Setup
-pip install -r requirements.txt
-uvicorn main:app --reload
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-Backend will run at:
-http://127.0.0.1:8000
+### `npm run build`
 
- API Docs:
-http://127.0.0.1:8000/docs
-🔹 3. Frontend Setup
-cd frontend
-npm install
-npm start
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-Frontend will run at:
-http://localhost:3000
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
- API Endpoint
-POST /predict
-🔹 Input
-{
-  "age": 35,
-  "loanamount": 10000,
-  "creditscore": 720,
-  "monthsemployed": 24,
-  "numcreditlines": 3,
-  "interestrate": 5.5,
-  "loanterm": 36,
-  "dtiratio": 0.2
-}
-🔹 Output
-{
-  "probability": 0.32,
-  "risk": "Medium",
-  "action": "Review Manually ",
-  "reasons": [
-    "High Loan Amount"
-  ]
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### `npm run eject`
 
-Risk Classification Logic
-Probability	Risk Level	Action
-< 0.25	Low	Approve Loan
-0.25 – 0.50	Medium	Review Manually
-> 0.50	High	Reject Loan
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-Data Visualization
- Gauge Chart → Displays risk probability
- Bar Chart → Shows risk category distribution
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Explainable AI
-The system provides reasons for predictions such as:
- Low Credit Score
- High Debt-to-Income Ratio
- Low Employment Stability
- High Loan Amount
- High Interest Rate
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-This improves transparency and helps users understand model decisions.
- Additional Features
- Prediction history (stored in localStorage)
- Filter by risk level
- Professional banking-style UI
- Real-time API integration
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-Testing
-Tested with low, medium, and high-risk inputs
-Verified:
-API response correctness
-UI updates
-Chart accuracy
+## Learn More
 
- Challenges Faced
-CORS issues between frontend and backend
-API integration bugs
-Risk threshold tuning
-UI design improvements
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
+To learn React, check out the [React documentation](https://reactjs.org/).
 
- Future Enhancements
-Cloud deployment (Render / Vercel)
-Database integration (MongoDB)
-Authentication system
-Real-time financial data integration
-Advanced Explainable AI (SHAP / LIME)
+### Code Splitting
 
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
