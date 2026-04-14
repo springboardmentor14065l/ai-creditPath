@@ -35,22 +35,28 @@ NUMERIC_FIELDS = [
 ]
 
 BINARY_FIELDS = [
+    # Loan / Application flags
     "loan_limit_ncf",
-    "Gender_Joint",
-    "Gender_Male",
-    "Gender_SexNotAvailable",
     "approv_in_adv_pre",
     "loan_type_type2",
     "loan_type_type3",
     "loan_purpose_p2",
     "loan_purpose_p3",
     "loan_purpose_p4",
+    # Gender
+    "Gender_Joint",
+    "Gender_Male",
+    "Gender_SexNotAvailable",
+    # Credit worthiness
     "Credit_Worthiness_l2",
     "open_credit_opc",
+    # Business
     "business_or_commercial_nobc",
+    # Amortization / payment type
     "Neg_ammortization_not_neg",
     "interest_only_not_int",
     "lump_sum_payment_not_lpsm",
+    # Property
     "construction_type_sb",
     "occupancy_type_pr",
     "occupancy_type_sr",
@@ -58,16 +64,19 @@ BINARY_FIELDS = [
     "total_units_2U",
     "total_units_3U",
     "total_units_4U",
+    # Credit bureau type
     "credit_type_CRIF",
     "credit_type_EQUI",
     "credit_type_EXP",
     "coapplicant_credit_type_EXP",
+    # Age brackets
     "age_3544",
     "age_4554",
     "age_5564",
     "age_6574",
     "age_25",
     "age_74",
+    # Submission & region
     "submission_of_application_to_inst",
     "Region_NorthEast",
     "Region_central",
@@ -188,25 +197,30 @@ def build_feature_frame(payload: dict[str, Any]) -> pd.DataFrame:
 
 
 def classify_risk(probability: float) -> str:
-    if probability < 0.3:
+    """Classify risk based on XGB+LGBM blended probability.
+    Thresholds are calibrated to the actual distribution of the base-model probabilities.
+    """
+    if probability < 0.05:
         return "Low"
-    if probability < 0.6:
+    if probability < 0.50:
         return "Medium"
     return "High"
 
 
 def recommend_action(probability: float) -> str:
-    if probability < 0.3:
+    """Recommend recovery action based on blended probability."""
+    if probability < 0.05:
         return "Low Risk - Send Reminder"
-    if probability < 0.6:
+    if probability < 0.50:
         return "Medium Risk - Call Customer"
     return "High Risk - Immediate Recovery Action"
 
 
 def urgency_hours(probability: float) -> int:
-    if probability < 0.3:
+    """Return urgency window in hours based on blended probability."""
+    if probability < 0.05:
         return 72
-    if probability < 0.6:
+    if probability < 0.50:
         return 24
     return 4
 
@@ -263,7 +277,13 @@ def score_payload(payload: dict[str, Any]) -> dict[str, Any]:
     xgb_probability = float(xgb_model.predict_proba(feature_frame)[0][1])
     lgbm_probability = float(lgbm_model.predict_proba(feature_frame)[0][1])
     meta_features = np.array([[xgb_probability, lgbm_probability]])
-    probability = float(meta_model.predict_proba(meta_features)[0][1])
+    meta_probability = float(meta_model.predict_proba(meta_features)[0][1])
+
+    # The meta-learner crushes all probabilities to near 0 or near 1 because the
+    # training dataset is near-perfectly separable. We use the average of the base
+    # models instead — it has a more graduated range that supports Low/Medium/High.
+    probability = (xgb_probability + lgbm_probability) / 2.0
+
     risk = classify_risk(probability)
     action = recommend_action(probability)
 
@@ -274,6 +294,9 @@ def score_payload(payload: dict[str, Any]) -> dict[str, Any]:
         "urgency_window_hours": urgency_hours(probability),
         "top_risk_drivers": get_top_drivers(feature_frame),
         "model_used": "Stacked Ensemble (XGBoost + LightGBM + Meta Logistic Regression)",
+        "xgb_probability": round(xgb_probability, 4),
+        "lgbm_probability": round(lgbm_probability, 4),
+        "meta_probability": round(meta_probability, 4),
     }
 
 

@@ -90,6 +90,12 @@ function Dashboard() {
     }));
   };
 
+  const loadPreset = (template) => {
+    setFormData(template);
+    setError("");
+    setResult(null);
+  };
+
   const navigateToTab = (tabId) => {
     setActiveTab(tabId);
     const section = sectionRefs[tabId]?.current;
@@ -233,6 +239,12 @@ function Dashboard() {
               onSubmit={submitSingle}
               onReset={resetForm}
               onAddToQueue={handleAddToQueue}
+              onLoadPreset={loadPreset}
+              presets={{
+                "Low Risk": portfolioTemplates[0],
+                "Medium Risk": portfolioTemplates[1],
+                "High Risk": portfolioTemplates[2]
+              }}
               loading={loadingSingle}
               result={result}
               formatPercent={formatPercent}

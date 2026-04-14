@@ -29,6 +29,8 @@ function Form({
   onSubmit,
   onReset,
   onAddToQueue,
+  onLoadPreset,
+  presets,
   loading,
   result,
   formatPercent,
@@ -41,12 +43,52 @@ function Form({
     urgency: result ? `${result.urgency_window_hours} hours` : "--"
   };
 
+  const currentRisk = result ? result.risk.toLowerCase() : "";
+
+  const getRiskStyle = (risk) => {
+    if (!risk) return {};
+    if (risk.includes("low")) {
+      return { border: "1px solid #166534", backgroundColor: "#dcfce7", color: "#166534" };
+    }
+    if (risk.includes("medium")) {
+      return { border: "1px solid #854d0e", backgroundColor: "#fef08a", color: "#854d0e" };
+    }
+    if (risk.includes("high")) {
+      return { border: "1px solid #991b1b", backgroundColor: "#fee2e2", color: "#991b1b" };
+    }
+    return {};
+  };
+
   return (
     <section className="panel-card borrower-panel">
       <div className="section-header">
         <div>
           <h2>Borrower Input</h2>
           <p>Review borrower details, run prediction, and push the case into the agent queue.</p>
+          
+          <div className="preset-selector" style={{ marginTop: "1rem", display: "flex", gap: "1rem", flexWrap: "wrap", alignItems: "center" }}>
+            {Object.entries(presets || {}).map(([name, template]) => (
+              <button
+                key={name}
+                type="button"
+                className="btn"
+                style={{ 
+                  ...getRiskStyle(name.toLowerCase()),
+                  padding: "0.5rem 1rem", 
+                  fontSize: "0.9rem",
+                  fontWeight: "bold",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  transition: "opacity 0.2s"
+                }}
+                onMouseOver={(e) => (e.target.style.opacity = 0.8)}
+                onMouseOut={(e) => (e.target.style.opacity = 1)}
+                onClick={() => onLoadPreset(template)}
+              >
+                Load {name}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -90,12 +132,21 @@ function Form({
         </div>
 
         <div className="insight-column">
-          {detailCards.map((card) => (
-            <article key={card.key} className={`detail-card detail-${card.key}`}>
-              <div className="detail-label">{card.label}</div>
-              <div className="detail-value">{cardValues[card.key]}</div>
-            </article>
-          ))}
+          {detailCards.map((card) => {
+            const isBoxColored = ["risk", "action", "urgency"].includes(card.key) && currentRisk;
+            const boxStyle = isBoxColored ? getRiskStyle(currentRisk) : {};
+            
+            return (
+              <article 
+                key={card.key} 
+                className={`detail-card detail-${card.key}`}
+                style={boxStyle}
+              >
+                <div className="detail-label">{card.label}</div>
+                <div className="detail-value">{cardValues[card.key]}</div>
+              </article>
+            );
+          })}
         </div>
       </div>
 
